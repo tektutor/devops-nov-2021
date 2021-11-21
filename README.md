@@ -43,3 +43,39 @@ mvn help:describe -Dcmd=clean
 ```
 mvn help:describe -Dcmd=site
 ```
+
+### Compiling C++ application using Maven
+```
+cd ~/devops-nov-2021
+git pull
+git checkout master
+cd Day1/CppHello
+mvn compile
+```
+
+### Cleaning the C++ binaries using Maven
+```
+cd ~/devops-nov-2021
+git pull
+git checkout master
+cd Day1/CppHello
+mvn clean
+```
+
+### Setting up JFrog Artifactory Maven Repository (RPS Cloud Machine - Terminal)
+```
+docker run -d --name jfrog -p 8081:8081 -p 8082:8082 docker.bintray.io/jfrog/artifactory-oss:latest
+```
+You may access the JFrog Artifactory portal from the Google Chrome browser on the RPS Cloud Lab machine
+http://172.17.0.2:8081
+
+When Artifactory prompts for password, provide the default credentials shown below
+```
+user - admin
+password - password
+```
+
+When it prompts to reset the password, you may use the below password
+```
+Admin@12345
+```
