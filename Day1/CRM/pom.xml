@@ -1,14 +1,15 @@
 <project>
 	<modelVersion>4.0.0</modelVersion>
 
+	<groupId>org.tektutor</groupId>
+	<artifactId>crm</artifactId>
+	<version>1.0.0</version>
+	<packaging>pom</packaging>
+
 	<properties>
 		<maven.compiler.source>1.6</maven.compiler.source>
 		<maven.compiler.target>1.6</maven.compiler.target>
 	</properties>
-
-	<groupId>org.tektutor</groupId>
-	<artifactId>tektutor-hello-app</artifactId>
-	<version>1.0.0</version>
 
 	<dependencies>
 		<dependency>
@@ -18,10 +19,10 @@
 		</dependency>
 	</dependencies>
 
-	<distributionManagement>
-		<repository>
-			<id>nexus</id>
-			<url>http://172.17.0.3:8081/repository/maven-releases/</url>
-		</repository>
-	</distributionManagement>
+	<modules>
+		<module>frontend</module>
+		<module>businesslayer</module>
+		<module>backend</module>
+		<module>main</module>
+	</modules>
 </project>
