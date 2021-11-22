@@ -64,7 +64,7 @@ mvn clean
 
 ### Setting up JFrog Artifactory Maven Repository (RPS Cloud Machine - Terminal)
 ```
-docker run -d -name jfrog -p 8081:8081 -p 8082:8082 docker.bintray.io/jfrog/artifactory-oss:latest
+docker run -d --name jfrog -p 8081:8081 -p 8082:8082 docker.bintray.io/jfrog/artifactory-oss:latest
 ```
 You may access the JFrog Artifactory portal from the Google Chrome browser on the RPS Cloud Lab machine
 http://172.17.0.2:8081
