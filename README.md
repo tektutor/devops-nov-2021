@@ -43,3 +43,19 @@ mvn help:describe -Dcmd=clean
 ```
 mvn help:describe -Dcmd=site
 ```
+
+### Compiling C++ application using Maven
+```
+cd ~/devops-nov-2021
+git pull
+cd Day1/CppHello
+mvn compile
+```
+
+### Cleaning the C++ binaries using Maven
+```
+cd ~/devops-nov-2021
+git pull
+cd Day1/CppHello
+mvn clean
+```
