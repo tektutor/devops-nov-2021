@@ -48,6 +48,7 @@ mvn help:describe -Dcmd=site
 ```
 cd ~/devops-nov-2021
 git pull
+git checkout master
 cd Day1/CppHello
 mvn compile
 ```
@@ -56,6 +57,7 @@ mvn compile
 ```
 cd ~/devops-nov-2021
 git pull
+git checkout master
 cd Day1/CppHello
 mvn clean
 ```
