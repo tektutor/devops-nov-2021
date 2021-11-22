@@ -50,3 +50,17 @@
 ### Effective POM
 - is a combination of super pom with your pom configuration 
 - maven always generates an effective pom in the memory(RAM) before it does anything on your project
+
+### Maven Dependencies
+- are nothing but third-party frameworks used by your project
+- e.g JUnit, Log4J are dependencies for your project
+
+### Maven Plugins
+- Maven depends on plugins to perform compilation, cleaning target folder, packaging your binaries as jar,war,ear, zip, etc
+- Plugins are Maven's dependencies
+- Maven uses maven-compiler-plugin to compile your application code ( compile goal to compile application code )
+- Maven uses maven-compiler-plugin to compile your automated test cases (testCompile goal to compile automated test case code)
+- Maven plugins has one or more goals
+- Each plugin goal does one specific task like compiling app code, compiling test code, packaging jar file, deployg jar files, etc
+
+
