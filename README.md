@@ -41,3 +41,12 @@
      - Maven Private Repository ( to maintain your organization proprietary artifacts - jar,war,ear,zip,tar,etc )
      - Maven Local Repository ( is a directory created automatically by Maven in your system )
         - User Home Directory - creates .m2 directory
+
+### Maven Super POM (Project Object Model)
+- Every pom file that we write they automatically inherit from Super POM
+- Super POM comes out of the box when you install Maven
+- Super POM has the default configurations
+
+### Effective POM
+- is a combination of super pom with your pom configuration 
+- maven always generates an effective pom in the memory(RAM) before it does anything on your project
