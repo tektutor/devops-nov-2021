@@ -62,7 +62,7 @@ cd Day1/CppHello
 mvn clean
 ```
 
-### Setting up JFrog Artifactory Maven Repository
+### Setting up JFrog Artifactory Maven Repository (RPS Cloud Machine - Terminal)
 ```
 docker run -d -name jfrog -p 8081:8081 -p 8082:8082 docker.bintray.io/jfrog/artifactory-oss:latest
 ```
