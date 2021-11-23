@@ -283,3 +283,65 @@ You may replace localhost with your RPS Lab machine IP.
 ```
 ifconfig ens192
 ```
+
+## Docker Networking
+
+### Listing the docker networks
+```
+docker network ls
+```
+
+### Creating custom networks
+```
+docker network create net-1
+docker network create net-2
+```
+
+### Finding the subnet(IP Range) allocated for net-1 and net-2
+```
+docker network inspect net-1
+docker network inspect net-2
+```
+
+### Let's create a web1 container and connect it to net-1 network
+```
+docker run -d --name web1 --network=net-1 nginx:1.18
+```
+
+### Let's create a web2 container and connect it to net-2 network
+```
+docker run -d --name web2 --network=net-2 nginx:1.18
+```
+
+### Inspect web1 container and find its IP 
+```
+docker inspect web1 | grep IPA
+```
+In my case, the IP address assigned to web1 is 172.18.0.2
+
+### Inspect web2 container and find its IP 
+```
+docker inspect web2 | grep IPA
+```
+In my case, the IP address assigned to web2 is 172.19.0.2
+
+### Let's get inside web1 container and ping web2 IP
+```
+docker exec -it web1 sh
+apt install iputils-ping
+apt install net-tools
+ping 172.19.0.2
+exit
+```
+The expectation is web1 container from net-1 will not be able to reach out to web2 container in net-2 network and vice versa.
+
+### Let's connect web1 to net-2 as well
+```
+docker network connect net-2 web1
+```
+
+Now verify if web1 is able to ping web2 IP. The expectation is web1 should be able to ping web2
+```
+docker exec -it web1 sh
+ping 172.19.0.2
+```
