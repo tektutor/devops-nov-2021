@@ -1,4 +1,6 @@
-## Docker Commands
+# Docker Commands
+
+## Managing Docker Images
 
 ### Listing docker images from the local docker registry
 ```
@@ -17,7 +19,7 @@ docker rmi hello-world:latest
 ```
 
 
-### Managing Docker containers
+## Managing Docker containers
 
 ### Creating docker containers in foreground(interactive) mode
 ```
@@ -77,4 +79,269 @@ docker rm $(docker ps -aq)
 ### Another way you can delete multiple containers
 ```
 docker stop $(docker ps -q) && docker rm $(docker ps -aq)
+```
+
+### Getting inside a running container
+```
+docker exec -it c1 bash
+```
+
+### Stopping a running container
+```
+docker stop c1
+```
+
+### Starting a exited container
+```
+docker start c1
+```
+
+### Restarting a container
+```
+docker restart c1
+```
+
+### Checking application log in a container
+```
+docker logs c1
+```
+
+### Creating an nginx web server container
+```
+docker run -d --name web1 nginx:1.18
+```
+
+### Finding the IP Address of the web1 nginx container
+```
+docker inspect web1 | grep IPA
+```
+
+### You may also find the IP Address of a container this way
+```
+docker inspect -f "{{.NetworkSettings.IPAddress}}" web1
+```
+
+### Accessing the web page hosted on the web1 nginx container
+Assuming 172.17.0.5 is the IP Address of the web1 container. Your web1 container IP address might be different.
+```
+curl http://172.17.0.5
+```
+
+## Creating a mysql container
+```
+docker run -d --name mysql1 --hostname mysql1 -e MYSQL_ROOT_PASSWORD=root mysql:latest 
+```
+
+### See if the mysql container is running
+```
+docker ps
+```
+
+### Getting inside the mysql1 container 
+```
+docker exec -it mysql1 sh
+mysql -u root -p
+```
+When mysql prompts for password, type 'root' without quotes.
+
+### You may then try the below SQL commands
+```
+SHOW DATABASES;
+CREATE DATABASE tektutor;
+USE tektutor;
+CREATE TABLE Training ( id int, name VARCHAR(35), duration VARCHAR(25));
+INSERT INTO Training VALUES ( 1, "DevOps", "5 Days" );
+INSERT INTO Training VALUES ( 2, "Microservices", "5 Days" );
+INSERT INTO Training VALUES ( 3, "Advanced Scala Programming", "5 Days" );
+SELECT * FROM Training;
+```
+
+## Volume Mounting
+```
+mkdir -p /tmp/mysql
+docker run -d --name mysql1 --hostname mysq1 -v /tmp/mysql:/var/lib/mysql -e MYSQ_ROOT_PASSWORD=root mysql:latest 
+```
+
+### See if the mysql container is running
+```
+docker ps
+```
+
+### Getting inside the mysql1 container 
+```
+docker exec -it mysql1 sh
+mysql -u root -p
+```
+When mysql prompts for password, type 'root' without quotes.
+
+### You may then try the below SQL commands
+```
+SHOW DATABASES;
+CREATE DATABASE tektutor;
+USE tektutor;
+CREATE TABLE Training ( id int, name VARCHAR(35), duration VARCHAR(25));
+INSERT INTO Training VALUES ( 1, "DevOps", "5 Days" );
+INSERT INTO Training VALUES ( 2, "Microservices", "5 Days" );
+INSERT INTO Training VALUES ( 3, "Advanced Scala Programming", "5 Days" );
+SELECT * FROM Training;
+exit
+exit
+```
+
+### Remove the container now
+```
+docker rm -f mysql1
+```
+
+### Let's create a new mysql container and mount the same volume
+```
+docker run -d --name mysql2 --hostname mysq2 -v /tmp/mysql:/var/lib/mysql -e MYSQ_ROOT_PASSWORD=root mysql:latest 
+```
+
+### Let's get inside the mysql2 container
+```
+docker exec -it mysql2 sh
+mysql -u root -p
+SHOW DATABASE;
+USE tektutor;
+SELECT * FROM Training;
+```
+You should be able to see the tektutor database and Training records that you inserted via mysql1 containers.
+
+### Remove any unwanted containers
+```
+docker rm -f $(docker ps -aq)
+```
+
+## Creating a LoadBalancer using nginx containers
+```
+docker run -d --name web1 --hostname web1 nginx:1.18
+docker run -d --name web2 --hostname web2 nginx:1.18
+docker run -d --name web3 --hostname web3 nginx:1.18
+docker run -d --name lb --hostname lb -p 80:80 nginx:1.18
+```
+
+### We need to configure the lb container to work like a Load Balancer
+```
+docker cp lb:/etc/nginx/nginx.conf .
+```
+We need to edit the nginx.conf as shown below
+
+<pre>
+http {
+    upstream backend {
+        server 172.17.0.2;
+        server 172.17.0.3:;
+        server 172.17.0.4;
+    }
+    
+    server {
+        location / {
+            proxy_pass http://backend;
+        }
+    }
+}
+</pre>
+
+We need to copy the configured nginx.conf inside the lb as shown below
+```
+docker cp nginx.conf lb:/etc/nginx/nginx.conf
+```
+
+To apply the changes, we need to restart the container
+```
+docker restart lb
+```
+
+If all went well, lb container should be still running
+```
+docker ps
+```
+
+In order to identify which web server is serving the page, let's customize the index.html files in web1, web2 and web3 containers.
+```
+docker exec -it web1 sh
+echo "Server 1" > /usr/share/nginx/html/index.html
+exit
+
+docker exec -it web2 sh
+echo "Server 2" > /usr/share/nginx/html/index.html
+exit
+
+docker exec -it web3 sh
+echo "Server 3" > /usr/share/nginx/html/index.html
+exit
+```
+
+Let's see if the load balancer is able to forward the requests to web1, web2 and web3 containers in a round robin fashion.
+```
+curl http://localhost:80
+curl http://localhost:80
+curl http://localhost:80
+```
+You may replace localhost with your RPS Lab machine IP.
+```
+ifconfig ens192
+```
+
+## Docker Networking
+
+### Listing the docker networks
+```
+docker network ls
+```
+
+### Creating custom networks
+```
+docker network create net-1
+docker network create net-2
+```
+
+### Finding the subnet(IP Range) allocated for net-1 and net-2
+```
+docker network inspect net-1
+docker network inspect net-2
+```
+
+### Let's create a web1 container and connect it to net-1 network
+```
+docker run -d --name web1 --network=net-1 nginx:1.18
+```
+
+### Let's create a web2 container and connect it to net-2 network
+```
+docker run -d --name web2 --network=net-2 nginx:1.18
+```
+
+### Inspect web1 container and find its IP 
+```
+docker inspect web1 | grep IPA
+```
+In my case, the IP address assigned to web1 is 172.18.0.2
+
+### Inspect web2 container and find its IP 
+```
+docker inspect web2 | grep IPA
+```
+In my case, the IP address assigned to web2 is 172.19.0.2
+
+### Let's get inside web1 container and ping web2 IP
+```
+docker exec -it web1 sh
+apt install iputils-ping
+apt install net-tools
+ping 172.19.0.2
+exit
+```
+The expectation is web1 container from net-1 will not be able to reach out to web2 container in net-2 network and vice versa.
+
+### Let's connect web1 to net-2 as well
+```
+docker network connect net-2 web1
+```
+
+Now verify if web1 is able to ping web2 IP. The expectation is web1 should be able to ping web2
+```
+docker exec -it web1 sh
+ping 172.19.0.2
 ```
