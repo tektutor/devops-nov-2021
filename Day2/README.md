@@ -1,4 +1,6 @@
-## Docker Commands
+# Docker Commands
+
+## Managing Docker Immages
 
 ### Listing docker images from the local docker registry
 ```
@@ -17,7 +19,7 @@ docker rmi hello-world:latest
 ```
 
 
-### Managing Docker containers
+## Managing Docker containers
 
 ### Creating docker containers in foreground(interactive) mode
 ```
@@ -125,7 +127,7 @@ Assuming 172.17.0.5 is the IP Address of the web1 container. Your web1 container
 curl http://172.17.0.5
 ```
 
-### Creating a mysql container
+## Creating a mysql container
 ```
 docker run -d --name mysql1 --hostname mysq1 -e MYSQ_ROOT_PASSWORD=root mysql:latest 
 ```
@@ -154,7 +156,7 @@ INSERT INTO Training VALUES ( 3, "Advanced Scala Programming", "5 Days" );
 SELECT * FROM Training;
 ```
 
-### Volume Mounting
+## Volume Mounting
 ```
 mkdir -p /tmp/mysql
 docker run -d --name mysql1 --hostname mysq1 -v /tmp/mysql:/var/lib/mysql -e MYSQ_ROOT_PASSWORD=root mysql:latest 
