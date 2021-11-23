@@ -120,7 +120,36 @@ docker inspect -f "{{.NetworkSettings.IPAddress}}" web1
 ```
 
 ### Accessing the web page hosted on the web1 nginx container
-Assuming 172.17.0.5 is the IP Address of the web1 container. Your web1 container might be different.
+Assuming 172.17.0.5 is the IP Address of the web1 container. Your web1 container IP address might be different.
 ```
 curl http://172.17.0.5
+```
+
+### Creating a mysql container
+```
+docker run -d --name mysql1 --hostname mysq1 -e MYSQ_ROOT_PASSWORD=root mysql:latest 
+```
+
+### See if the mysql container is running
+```
+docker ps
+```
+
+### Getting inside the mysql1 container 
+```
+docker exec -it mysql1 sh
+mysql -u root -p
+```
+When mysql prompts for password, type 'root' without quotes.
+
+### You may then try the below SQL commands
+```
+SHOW DATABASES;
+CREATE DATABASE tektutor;
+USE tektutor;
+CREATE TABLE Training ( id int, name VARCHAR(35), duration VARCHAR(25));
+INSERT INTO Training VALUES ( 1, "DevOps", "5 Days" );
+INSERT INTO Training VALUES ( 2, "Microservices", "5 Days" );
+INSERT INTO Training VALUES ( 3, "Advanced Scala Programming", "5 Days" );
+SELECT * FROM Training;
 ```
