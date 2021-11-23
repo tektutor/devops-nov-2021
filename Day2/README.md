@@ -103,3 +103,24 @@ docker restart c1
 ```
 docker logs c1
 ```
+
+### Creating an nginx web server container
+```
+docker run -d --name web1 nginx:1.18
+```
+
+### Finding the IP Address of the web1 nginx container
+```
+docker inspect web1 | grep IPA
+```
+
+### You may also find the IP Address of a container this way
+```
+docker inspect -f "{{.NetworkSettings.IPAddress}}" web1
+```
+
+### Accessing the web page hosted on the web1 nginx container
+Assuming 172.17.0.5 is the IP Address of the web1 container. Your web1 container might be different.
+```
+curl http://172.17.0.5
+```
