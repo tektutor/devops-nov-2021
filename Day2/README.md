@@ -153,3 +153,131 @@ INSERT INTO Training VALUES ( 2, "Microservices", "5 Days" );
 INSERT INTO Training VALUES ( 3, "Advanced Scala Programming", "5 Days" );
 SELECT * FROM Training;
 ```
+
+### Volume Mounting
+```
+mkdir -p /tmp/mysql
+docker run -d --name mysql1 --hostname mysq1 -v /tmp/mysql:/var/lib/mysql -e MYSQ_ROOT_PASSWORD=root mysql:latest 
+```
+
+### See if the mysql container is running
+```
+docker ps
+```
+
+### Getting inside the mysql1 container 
+```
+docker exec -it mysql1 sh
+mysql -u root -p
+```
+When mysql prompts for password, type 'root' without quotes.
+
+### You may then try the below SQL commands
+```
+SHOW DATABASES;
+CREATE DATABASE tektutor;
+USE tektutor;
+CREATE TABLE Training ( id int, name VARCHAR(35), duration VARCHAR(25));
+INSERT INTO Training VALUES ( 1, "DevOps", "5 Days" );
+INSERT INTO Training VALUES ( 2, "Microservices", "5 Days" );
+INSERT INTO Training VALUES ( 3, "Advanced Scala Programming", "5 Days" );
+SELECT * FROM Training;
+exit
+exit
+```
+
+### Remove the container now
+```
+docker rm -f mysql1
+```
+
+### Let's create a new mysql container and mount the same volume
+```
+docker run -d --name mysql2 --hostname mysq2 -v /tmp/mysql:/var/lib/mysql -e MYSQ_ROOT_PASSWORD=root mysql:latest 
+```
+
+### Let's get inside the mysql2 container
+```
+docker exec -it mysql2 sh
+mysql -u root -p
+SHOW DATABASE;
+USE tektutor;
+SELECT * FROM Training;
+```
+You should be able to see the tektutor database and Training records that you inserted via mysql1 containers.
+
+### Remove any unwanted containers
+```
+docker rm -f $(docker ps -aq)
+```
+
+### Creating a LoadBalancer using nginx containers
+```
+docker run -d --name web1 --hostname web1 nginx:1.18
+docker run -d --name web2 --hostname web2 nginx:1.18
+docker run -d --name web3 --hostname web3 nginx:1.18
+docker run -d --name lb --hostname lb -p 80:80 nginx:1.18
+```
+
+### We need to configure the lb container to work like a Load Balancer
+```
+docker cp lb:/etc/nginx/nginx.conf .
+```
+We need to edit the nginx.conf as shown below
+
+<pre>
+http {
+    upstream backend {
+        server 172.17.0.2;
+        server 172.17.0.3:;
+        server 172.17.0.4;
+    }
+    
+    server {
+        location / {
+            proxy_pass http://backend;
+        }
+    }
+}
+</pre>
+
+We need to copy the configured nginx.conf inside the lb as shown below
+```
+docker cp nginx.conf lb:/etc/nginx/nginx.conf
+```
+
+To apply the changes, we need to restart the container
+```
+docker restart lb
+```
+
+If all went well, lb container should be still running
+```
+docker ps
+```
+
+In order to identify which web server is serving the page, let's customize the index.html files in web1, web2 and web3 containers.
+```
+docker exec -it web1 sh
+echo "Server 1" > /usr/share/nginx/html/index.html
+exit
+
+docker exec -it web2 sh
+echo "Server 2 > /usr/share/nginx/html/index.html
+exit
+
+docker exec -it web3 sh
+echo "Server 3 > /usr/share/nginx/html/index.html
+exit
+```
+
+Let's see if the load balancer is able to forward the requests to web1, web2 and web3 containers in a round robin fashion.
+```
+curl http://localhost:80
+curl http://localhost:80
+curl http://localhost:80
+```
+You may replace localhost with your RPS Lab machine IP.
+```
+ifconfig ens192
+```
