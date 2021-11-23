@@ -18,6 +18,9 @@ RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so
 RUN mkdir -p /root/.ssh
 COPY authorized_keys /root/.ssh/authorized_keys
 
+RUN mkdir -p /home/devops/.ssh
+COPY authorized_keys /home/devops/.ssh/authorized_keys
+
 EXPOSE 22
 EXPOSE 80 
 CMD ["/usr/sbin/sshd", "-D"]
