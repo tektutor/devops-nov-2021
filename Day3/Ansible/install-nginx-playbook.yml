@@ -1,0 +1,70 @@
+- name: This playbook will install nginx, configures it and deploys a custom html page.
+  hosts: ubuntu 
+  become: yes
+  vars:
+    - provisioner_tool: Docker
+    - conf_mgr_tool: Ansible
+  tasks:
+    - name: Install nginx in Ubuntu
+      when: ansible_distribution == "Ubuntu"
+      apt: name=nginx state=latest update_cache=yes
+
+    - name: Install Extra Package for Enterprise Linux (epel) in CentOS
+      when: ansible_distribution == "CentOS"
+      yum: name=epel-release state=latest
+
+    - name: Install nginx in CentOS
+      when: ansible_distribution == "CentOS"
+      yum: name=nginx state=latest 
+
+    - name: Start nginx server
+      when: ansible_distribution == "Ubuntu"
+      shell: service nginx start 
+
+    - name: Start nginx server
+      when: ansible_distribution == "CentOS"
+      service: name=nginx state=started enabled=yes
+
+    - name: Open ports in CentOS
+      when: ansible_distribution == "CentOS"
+      shell: firewall-cmd --add-port=8001/tcp --permanent --zone=public 
+
+    - name: Reload firewall in CentOS
+      when: ansible_distribution == "CentOS"
+      shell: firewall-cmd --reload 
+
+    - name: Create the custom web root folder in Ubuntu
+      when: ansible_distribution == "Ubuntu"
+      file: path=/var/html state=directory  mode=0777
+
+    - name: Create the custom web root folder
+      when: ansible_distribution == "CentOS"
+      file: path=/var/html state=directory  mode=0777 owner=rps
+
+    - name: Configure nginx web root folder in Ubuntu 
+      when: ansible_distribution == "Ubuntu"
+      copy: src=default dest=/etc/nginx/sites-available/default
+
+    - name: Configure nginx web root folder in CentOS 
+      when: ansible_distribution == "CentOS"
+      copy: src=nginx.conf dest=/etc/nginx/nginx.conf owner=rps
+
+    - name: Retrieve IP Address
+      shell: hostname -i
+      register: ip 
+
+    - name: Deploy custom html page in Ubuntu 
+      when: ansible_distribution == "Ubuntu"
+      template: src=index.html.j2 dest=/var/html/index.html mode=0644 
+
+    - name: Deploy custom html page in CentOS
+      when: ansible_distribution == "CentOS"
+      copy: src=index.html dest=/var/html mode=0777 owner=rps
+
+    - name: Restart nginx web server to apply config changes in Ubuntu
+      when: ansible_distribution == "Ubuntu"
+      shell: service nginx restart
+
+    - name: Restart nginx web server to apply config changes in CentOS
+      when: ansible_distribution == "CentOS"
+      service: name=nginx state=restarted enabled=yes
