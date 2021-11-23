@@ -265,11 +265,11 @@ echo "Server 1" > /usr/share/nginx/html/index.html
 exit
 
 docker exec -it web2 sh
-echo "Server 2 > /usr/share/nginx/html/index.html
+echo "Server 2" > /usr/share/nginx/html/index.html
 exit
 
 docker exec -it web3 sh
-echo "Server 3 > /usr/share/nginx/html/index.html
+echo "Server 3" > /usr/share/nginx/html/index.html
 exit
 ```
 
