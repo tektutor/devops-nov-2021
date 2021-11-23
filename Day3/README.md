@@ -75,3 +75,21 @@ devops@ubuntu1:~$ exit
 logout
 Connection to localhost closed.
 </pre>
+
+### Ansible Ping
+```
+cd ~/devops-nov-2021
+git pull
+cd Day3/Ansible
+ansible -i hosts all -m ping
+```
+
+### What really happens when we perform ansible ping
+1. Ansible picks the ansible node ssh connection details from inventory file and makes an SSH connection.
+2. Ansible creates temp folder on ACM and temp on the Ansible Node
+3. Ansible copies the ping.py ansible module from ACM and puts it under the ACM temp folder.  This file is then transpilled
+   i.e bundles all ansible specific dependencies the ping.py has inline in the ping.py.
+4. The transpilled ping.py is then then copied from ACM using sftp/scp to the ansible node temp folder
+5. Ansible then executes the ping.py on the Ansible node and captures the output of the ping.py script
+6. Ansible clean up i.e removes the temp directory created on the Ansible node 
+7. Ansible gives a summary of the output on the ACM(Ansible Controller Machine)
