@@ -78,3 +78,28 @@ docker rm $(docker ps -aq)
 ```
 docker stop $(docker ps -q) && docker rm $(docker ps -aq)
 ```
+
+### Getting inside a running container
+```
+docker exec -it c1 bash
+```
+
+### Stopping a running container
+```
+docker stop c1
+```
+
+### Starting a exited container
+```
+docker start c1
+```
+
+### Restarting a container
+```
+docker restart c1
+```
+
+### Checking application log in a container
+```
+docker logs c1
+```
