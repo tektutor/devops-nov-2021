@@ -211,7 +211,7 @@ You should be able to see the tektutor database and Training records that you in
 docker rm -f $(docker ps -aq)
 ```
 
-### Creating a LoadBalancer using nginx containers
+## Creating a LoadBalancer using nginx containers
 ```
 docker run -d --name web1 --hostname web1 nginx:1.18
 docker run -d --name web2 --hostname web2 nginx:1.18
