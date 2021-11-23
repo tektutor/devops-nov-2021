@@ -1,0 +1,5 @@
+- name: This is a simple playbook that will ping the ansible nodes
+  hosts: all
+  tasks:
+    - name: Ping ansible node
+      ping:
