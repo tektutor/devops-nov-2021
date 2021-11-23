@@ -51,3 +51,27 @@ We will be using the ubuntu1 and ubuntu2 containers as our Ansible Nodes.  Techn
 ssh -p 2001 devops@localhost
 ssh -p 2002 devops@localhost
 ```
+The expected output is
+<pre>
+[rps@localhost ubuntu-ansible]$ ssh -p 2001 devops@localhost
+The authenticity of host '[localhost]:2001 ([::1]:2001)' can't be established.
+ECDSA key fingerprint is SHA256:RILXJPejzluv/gCdlD8tTmyNEqQbv+CcINgeM+H+Ny0.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '[localhost]:2001' (ECDSA) to the list of known hosts.
+Welcome to Ubuntu 16.04.7 LTS (GNU/Linux 4.18.0-305.12.1.el8_4.x86_64 x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+The programs included with the Ubuntu system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Ubuntu comes with ABSOLUTELY NO WARRANTY, to the extent permitted by
+applicable law.
+
+devops@ubuntu1:~$ exit
+logout
+Connection to localhost closed.
+</pre>
