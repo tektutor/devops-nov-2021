@@ -1,6 +1,6 @@
 # Docker Commands
 
-## Managing Docker Immages
+## Managing Docker Images
 
 ### Listing docker images from the local docker registry
 ```
