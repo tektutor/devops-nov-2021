@@ -129,7 +129,7 @@ curl http://172.17.0.5
 
 ## Creating a mysql container
 ```
-docker run -d --name mysql1 --hostname mysq1 -e MYSQ_ROOT_PASSWORD=root mysql:latest 
+docker run -d --name mysql1 --hostname mysql1 -e MYSQL_ROOT_PASSWORD=root mysql:latest 
 ```
 
 ### See if the mysql container is running
