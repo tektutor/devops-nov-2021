@@ -100,16 +100,22 @@ Docker
 - This helps in creating a virtual env for a single application. 
 - This is a provisioning tool.
 - This is not an Operating System, though it offers many OS related features it is just a process.
+- shares hardware resources available on the host system
+- is used in providing light-weight VM like application environ (Infrastructure Tool)
 
 Virtual Machine 
-- is a fully functional Operating System. Provisioning tool.
 - a technology that helps in running multiple OS in the same system side by side.
+- requires dedicated hardwares
+- is a fully functional Operating System. Provisioning tool.
+- Instrastructure Tool ( Provides a machine )
 
 Maven - is a build tool tool that helps in compiling, executing automated test cases part of build, packaing application binaries, deploying binaries to weblogic, artifactory, etc
 
 Jenkins - a Continuous Integration Build Server. Helps in setting up CI/CD Pipeline.
 
 Ansible - a configuration management tool. Helps in automating software installations on existing systems (VM, container, Cloud machines, etc)
+
+
 
 
 ### Executing the ping playbook
