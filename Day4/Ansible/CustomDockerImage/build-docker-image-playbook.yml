@@ -1,0 +1,22 @@
+- name: This playbook will build jenkins slave custom docker image
+  hosts: localhost
+  become: yes
+  tasks:
+
+    - name: Install Extra Packages for Enterprise Linux (EPEL) 
+      yum: name=epel-release state=latest
+
+#   - name: Install Python package installer
+#     yum: name=python3-pip state=latest
+
+    - name: Install Docker SDK
+      shell: pip3 install docker
+
+    - name: Build jenkins slave image
+      docker_image:
+        build:
+          path: .
+        name: "tektutor/jenkins-slave:latest"
+        state: build
+        source: build
+        pull: false
