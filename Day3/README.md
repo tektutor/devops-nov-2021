@@ -44,6 +44,7 @@ docker build -t tektutor/ansible-ubuntu .
 docker run -d --name ubuntu1 --hostname ubuntu1 -p 2001:22 -p 8001:80 tektutor/ansible-ubuntu 
 docker run -d --name ubuntu2 --hostname ubuntu2 -p 2002:22 -p 8002:80 tektutor/ansible-ubuntu 
 ```
+We will be using the ubuntu1 and ubuntu2 containers as our Ansible Nodes.  Technically speaking ubuntu1 and ubuntu2 could also be an on-prem server, cloud server, virtual machines, or a combination of them, etc
 
 ### Let's test if we are able SSH into the containers without supplying password as rps user
 ```
