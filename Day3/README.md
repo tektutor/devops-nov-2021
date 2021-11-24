@@ -117,4 +117,5 @@ Ansible - a configuration management tool. Helps in automating software installa
 cd ~/devops-nov-2021
 git pull
 cd Day3/Ansible
+ansible-playbook -i hosts ping.yml
 ```
