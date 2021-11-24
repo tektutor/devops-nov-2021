@@ -93,3 +93,28 @@ ansible -i hosts all -m ping
 5. Ansible then executes the ping.py on the Ansible node and captures the output of the ping.py script
 6. Ansible clean up i.e removes the temp directory created on the Ansible node 
 7. Ansible gives a summary of the output on the ACM(Ansible Controller Machine)
+
+### List of DevOps Tools we use in this Training
+Docker 
+- application virtualization tool 
+- This helps in creating a virtual env for a single application. 
+- This is a provisioning tool.
+- This is not an Operating System, though it offers many OS related features it is just a process.
+
+Virtual Machine 
+- is a fully functional Operating System. Provisioning tool.
+- a technology that helps in running multiple OS in the same system side by side.
+
+Maven - is a build tool tool that helps in compiling, executing automated test cases part of build, packaing application binaries, deploying binaries to weblogic, artifactory, etc
+
+Jenkins - a Continuous Integration Build Server. Helps in setting up CI/CD Pipeline.
+
+Ansible - a configuration management tool. Helps in automating software installations on existing systems (VM, container, Cloud machines, etc)
+
+
+### Executing the ping playbook
+```
+cd ~/devops-nov-2021
+git pull
+cd Day3/Ansible
+```
