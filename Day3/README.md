@@ -115,9 +115,6 @@ Jenkins - a Continuous Integration Build Server. Helps in setting up CI/CD Pipel
 
 Ansible - a configuration management tool. Helps in automating software installations on existing systems (VM, container, Cloud machines, etc)
 
-
-
-
 ### Executing the ping playbook
 ```
 cd ~/devops-nov-2021
@@ -125,3 +122,27 @@ git pull
 cd Day3/Ansible
 ansible-playbook -i hosts ping.yml
 ```
+
+### Executing the install nginx playbook
+```
+cd ~/devops-nov-2021
+git pull
+cd Day3/Ansible
+ansible-playbook -i hosts -e greeting_msg=Welcome install-nginx-playbook.yml
+```
+
+### Executing the playbook that downloads artifacts from JFrog Artifactory
+It is assumed that your JFrog artifactory is up and running and it has the hello world jar file.
+
+```
+cd ~/devops-nov-2021
+git pull
+cd Day3/Ansible
+ansible-playbook -i hosts fetch-artifacts-from-artifactory.yml
+```
+
+
+
+
+
+
