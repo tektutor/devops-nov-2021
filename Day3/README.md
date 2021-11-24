@@ -22,3 +22,19 @@
                 - Unix/Linux/Mac - it expects SFTP/SCP to be running
                 - Unix/Linux/Mac - it expects SSH Server to be running
 		- uses modules to automate
+
+
+### Let's generate key pair for rps user
+```
+ssh-keygen
+```
+Accept all defaults by hitting enter key(thrice).
+
+#### Creating custom ubuntu ansible node Docker Image
+```
+cd ~/devops-nov-2021
+git pull
+cd Day3/Ansible/ubuntu-ansible
+cp ~/.ssh/id_rsa.pub authorized_keys
+docker build -t tektutor/ansible-ubuntu .
+```
