@@ -1,0 +1,19 @@
+- name: This playbook demonstrates provisioning containers
+  hosts: localhost
+  tasks:
+
+    - name: Delete existing containers
+      shell: docker rm -f $(docker ps -aq)
+      ignore_errors: yes
+
+    - name: Provision containers
+      docker_container:
+        image: ubuntu:16.04
+        name: "ubuntu-{{item}}"
+        hostname: "ubuntu-{{item}}"
+        state: started
+        command: sleep infinity
+        ports:
+          - "2{{item}}:22"
+          - "8{{item}}:80"
+      with_sequence: start=1 end=50 format="%03d"
