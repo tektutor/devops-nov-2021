@@ -38,3 +38,15 @@ cd Day3/Ansible/ubuntu-ansible
 cp ~/.ssh/id_rsa.pub authorized_keys
 docker build -t tektutor/ansible-ubuntu .
 ```
+
+### Let's create couple of containers using our custom docker image
+```
+docker run -d --name ubuntu1 --hostname ubuntu1 -p 2001:22 -p 8001:80 tektutor/ansible-ubuntu 
+docker run -d --name ubuntu2 --hostname ubuntu2 -p 2002:22 -p 8002:80 tektutor/ansible-ubuntu 
+```
+
+### Let's test if we are able SSH into the containers without supplying password as rps user
+```
+ssh -p 2001 devops@localhost
+ssh -p 2002 devops@localhost
+```
