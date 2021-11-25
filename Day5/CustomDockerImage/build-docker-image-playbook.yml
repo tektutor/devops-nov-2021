@@ -11,6 +11,7 @@
 
     - name: Delete existing jenkins slave image
       shell: docker rmi tektutor/jenkins-slave:latest
+      ignore_errors: yes
 
     - name: Build jenkins slave image
       docker_image:
