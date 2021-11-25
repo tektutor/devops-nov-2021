@@ -63,3 +63,11 @@ We need to choose "Install Suggested Plugins" and then later need to manually in
 5. Ansible Tower(optional - required in case you wish to integrate Ansible Tower with Jenkins)
 
 You also need to create a user once the plugins are installed.
+
+### Provisioning Docker Containers using Ansible Playbook
+```
+cd ~/devops-nov-2021
+git pull
+cd Day4/Ansible
+ansible-playbook provision-docker-containers-playbook.yml
+```
