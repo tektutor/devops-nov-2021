@@ -46,3 +46,20 @@
      - Microsoft Team Foundation Server(TFS)
 
 
+### Setting up Jenkins
+You may launch jenkins as shown below from the terminal as rps user
+```
+java -jar ./jenkins.war
+```
+When prompted for initial admin password, you may copy/paste the initial admin password from the /home/rps/.jenkins/secrets/initialAdminPassword
+
+As the jenkins is launched in interactive fashion, pressing Ctrl+c will terminate hence use a different Terminal Tab and leave this terminal undisturbed.
+
+We need to choose "Install Suggested Plugins" and then later need to manually install the below plugins
+1. Docker
+2. Maven Integration
+3. Build Pipeline
+4. Ansible
+5. Ansible Tower(optional - required in case you wish to integrate Ansible Tower with Jenkins)
+
+You also need to create a user once the plugins are installed.
