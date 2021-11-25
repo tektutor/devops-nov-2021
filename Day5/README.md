@@ -37,5 +37,13 @@
     - Google Kubernetes - Until now supports Docker as default Container Runtime but in the next upcoming releases they are planning to move to Podman
     - RedHat(IBM) OpenShift - by default uses Podman Container Runtime
 
+### Jenkins
+- Continuous Integration Build Server
+- comes in 2 flavours
+  1. Opensource
+  2. Enterprise Edition - CloudBees
+
+
+
 
 
