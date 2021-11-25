@@ -119,7 +119,6 @@ docker cp prometheus:/etc/prometheus/prometheus.yml .
   target_groups:
      - targets: ['192.168.22.233:8080']
 </pre>
-```
 
 You may now copy the updated prometheus.yml back to the container
 ```
@@ -135,4 +134,13 @@ docker ps
 You may now access the prometheus dashboard on your favourite browser at http://localhost:9090.
 You can check the status menu in Prometheus to verify if Prometheus is able to collect data from Jenkins.
 
+### Creating Grafana container
+```
+docker run -d --name grafana -p 3000:3000 -e GF_SECURITY_ADMIN_PASSWORD=grafana grafana/grafana:latest
+```
+You can access the grafana page at http://localhost:3000
 
+You need to create a Datasource to pull data from Prometheus.
+Prometheus URL you need to provide is <your-rps-lab-machine-ip>:9090
+
+You may now import Dashboard ID 9964 and connect with Prometheus Datasource to view an impressive Grafana Dashboard that plots live performance data from Jenkins.
