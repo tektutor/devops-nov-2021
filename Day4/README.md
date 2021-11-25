@@ -79,3 +79,60 @@ git pull
 cd Day4/Ansible
 ansible-playbook provision-docker-containers-playbook.yml
 ```
+
+### What is Prometheus?
+- Prometheus a tool that collects performance metrics
+
+### What is Grafana?
+- Grafana is a tool that plots any data given in graphical fashion
+- supports variety of graphs, pie-chart, bar-chart, etc.,
+
+### Using Prometheus/Grafana to collect Jenkins performance metrics 
+
+0. Install Prometheus metrics Plugin in Jenkins
+1. Installing Prometheus
+2. Configuring Prometheus to collect performance metrics from Jenkins
+3. Installing Grafana
+4. Configuring Grafana to collect metrics and data from Prometheus and plot the data in an impression dashboard
+
+
+### Accessing the Jenkins Performance Metrics from Jenkins
+```
+http://localhost:8080/prometheus
+```
+
+### Creating Prometheus Container
+```
+docker run -d --name prometheus -p 9090:9090 prom/prometheus:0.18.0
+```
+
+### Copy the prometheus config file from container to local machine and add a prometheus jenkins job
+```
+docker cp prometheus:/etc/prometheus/prometheus.yml .
+```
+
+### Append the below to the prometheus.yml file copied from the prometheus container
+<pre>
+- job name: 'jenkins'
+  scrape_interval: 5s
+  metrics_path: /prometheus
+  target_groups:
+     - targets: ['192.168.22.233:8080']
+</pre>
+```
+
+You may now copy the updated prometheus.yml back to the container
+```
+docker cp prometheus.yml prometheus:/etc/prometheus/prometheus.yml 
+docker restart prometheus
+```
+
+See if the prometheus container is still running after applying the config changes
+```
+docker ps
+```
+
+You may now access the prometheus dashboard on your favourite browser at http://localhost:9090.
+You can check the status menu in Prometheus to verify if Prometheus is able to collect data from Jenkins.
+
+
