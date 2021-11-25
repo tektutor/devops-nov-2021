@@ -64,6 +64,14 @@ We need to choose "Install Suggested Plugins" and then later need to manually in
 
 You also need to create a user once the plugins are installed.
 
+### Building Docker Image using Ansible Playbook
+```
+cd ~/devops-nov-2021
+git pull
+cd Day4/Ansible/CustomDockerImage
+ansible-playbook build-docker-image-playbook.yml -e ansible_become_user=root --ask-become-pass
+```
+
 ### Provisioning Docker Containers using Ansible Playbook
 ```
 cd ~/devops-nov-2021
