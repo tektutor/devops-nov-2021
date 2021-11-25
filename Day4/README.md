@@ -120,6 +120,8 @@ docker cp prometheus:/etc/prometheus/prometheus.yml .
      - targets: ['192.168.22.233:8080']
 </pre>
 
+In the above configuration, you need to replace IP 192.168.22.233 with your RPS Lab Machine IP.
+
 You may now copy the updated prometheus.yml back to the container
 ```
 docker cp prometheus.yml prometheus:/etc/prometheus/prometheus.yml 
